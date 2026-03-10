@@ -32,11 +32,11 @@ public class User {
     // create the enums and map to them ========
     @Enumerated(EnumType.STRING)
     @Column(name = "onboarding_path")
-    private OnboardingPath onboardingPath ;
+    private OnboardingPath onboardingPath = OnboardingPath.SELF ;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "severity_level")
-    private SeverityLevel severityLevel ;
+    private SeverityLevel severityLevel = SeverityLevel.MILD ;
     // ========
 
     @Column(name = "streak_days")

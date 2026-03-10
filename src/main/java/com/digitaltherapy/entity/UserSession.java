@@ -20,7 +20,7 @@ public class UserSession {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private Status status ;
+    private Status status = Status.IN_PROGRESS ;
 
     @Column(name = "started_at")
     private LocalDateTime startedAt ;

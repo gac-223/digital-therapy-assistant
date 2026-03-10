@@ -15,14 +15,14 @@ public class ChatMessage {
 
     @Enumerated(EnumerationType.STRING)
     @Column(name = "role")
-    private Role role ;
+    private Role role = Role.USER;
 
     @Column(name = "content")
     private String content ;
 
     @Enumerated(EnumerationType.STRING)
     @Column(name = "modality")
-    private Modality modality ;
+    private Modality modality = Modality.TEXT ;
 
     @Column(name = "timestampe")
     private LocalDateTime timestamp ;
