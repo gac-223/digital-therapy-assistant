@@ -1,5 +1,7 @@
 package com.digitaltherapyassistant.cli.commands;
 import java.util.Scanner;
+
+import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Component;
 import com.digitaltherapyassistant.cli.Command;
 
@@ -11,5 +13,7 @@ public class ExitCommand implements Command {
     public String getName(){ return "7"; }
     public String getMenuLabel() { return "Exit"; }
 
-    public void execute(Scanner in) {}
+    public void execute(Scanner in) {
+        System.exit(0);
+    }
 }

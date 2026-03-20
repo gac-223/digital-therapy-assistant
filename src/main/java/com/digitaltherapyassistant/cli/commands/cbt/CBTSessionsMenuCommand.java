@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import com.digitaltherapyassistant.cli.Command;
 import com.digitaltherapyassistant.cli.MenuHandler;
 import com.digitaltherapyassistant.cli.commands.BackCommand;
+import com.digitaltherapyassistant.cli.commands.ExitCommand;
 
 @Component
 public class CBTSessionsMenuCommand implements Command {
@@ -19,9 +20,8 @@ public class CBTSessionsMenuCommand implements Command {
         BackCommand backCommand
     ){
         cbtMenuHandler = new MenuHandler(
-            List.of(startSessionCommand, 
-                viewSessionHistoryCommand, viewSessionLibraryCommand,
-                backCommand));
+            List.of(startSessionCommand, viewSessionHistoryCommand,
+                     viewSessionLibraryCommand, backCommand));
     }
     
     public String getName() { return "2"; }

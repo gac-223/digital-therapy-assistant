@@ -26,8 +26,8 @@ public class AuthenticationMenuCommand implements Command {
     )
     {
         this.authMenuHandler = new MenuHandler(
-            List.of(registerCommand, 
-                loginCommand, logoutCommand, backCommand));
+            List.of(registerCommand, loginCommand, 
+                logoutCommand, backCommand));
     }
 
     public String getName() { return "1"; }

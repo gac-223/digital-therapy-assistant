@@ -22,10 +22,7 @@ public class MenuHandler{
             String input = getInput(in);
             Command command = commandMap.get(input);
             if(command != null){
-                if(command.getMenuLabel().equals("Back")
-                    || command.getMenuLabel().equals("Exit")){ 
-                    break;
-                }
+                if(command.getMenuLabel().equals("Back")){ break; }
                 command.execute(in);
             }
             else{
@@ -38,6 +35,7 @@ public class MenuHandler{
         System.out.println("\n===========================");
         System.out.println("  " + title);
         System.out.println("===========================");
+
         commandMap.forEach((key, cmd) ->
                 System.out.println(key + ". " + cmd.getMenuLabel())
         );
@@ -45,12 +43,7 @@ public class MenuHandler{
     }
 
     public String getInput(Scanner scanner) {
-        if(commandMap.get("7") != null){
-            System.out.print("Enter choice: ");
-        }
-        else{
-            System.out.print("Enter choice (0 to go back): ");
-        }
+        System.out.print("Enter choice: ");
         return scanner.nextLine().trim();
     }
 
