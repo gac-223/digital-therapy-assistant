@@ -13,7 +13,8 @@ public class ExitCommand implements Command {
     public String getName(){ return "7"; }
     public String getMenuLabel() { return "Exit"; }
 
-    public void execute(Scanner in) {
+    public boolean execute(Scanner in) {
         System.exit(0);
+        return true;
     }
 }

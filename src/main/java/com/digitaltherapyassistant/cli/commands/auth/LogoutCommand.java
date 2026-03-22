@@ -13,7 +13,8 @@ public class LogoutCommand implements Command {
     public String getName() { return "c"; }
     public String getMenuLabel() { return "Logout"; }
     
-    public void execute(Scanner in) { 
+    public boolean execute(Scanner in) { 
         System.out.println("Logged Out"); 
+        return true;
     }
 }

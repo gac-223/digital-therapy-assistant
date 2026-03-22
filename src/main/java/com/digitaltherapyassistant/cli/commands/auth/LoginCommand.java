@@ -14,7 +14,8 @@ public class LoginCommand implements Command {
     public String getName() { return "b"; }
     public String getMenuLabel() { return "Login"; }
     
-    public void execute(Scanner in) {
+    public boolean execute(Scanner in) {
         System.out.println("Logged In");
+        return true;
     }
 }

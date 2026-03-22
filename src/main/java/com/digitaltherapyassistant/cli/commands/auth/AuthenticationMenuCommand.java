@@ -33,7 +33,8 @@ public class AuthenticationMenuCommand implements Command {
     public String getName() { return "1"; }
     public String getMenuLabel() { return "Authentication"; }
 
-    public void execute(Scanner in) {
+    public boolean execute(Scanner in) {
         authMenuHandler.runMenu("Authentication Menu", in);
+        return true;
     }
 }

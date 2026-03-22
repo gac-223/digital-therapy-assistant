@@ -6,6 +6,7 @@ import java.util.Scanner;
 import org.springframework.stereotype.Component;
 
 import com.digitaltherapyassistant.cli.Command;
+import com.digitaltherapyassistant.cli.CommandLineException;
 import com.digitaltherapyassistant.cli.MenuHandler;
 import com.digitaltherapyassistant.cli.commands.BackCommand;
 import com.digitaltherapyassistant.cli.commands.ExitCommand;
@@ -30,7 +31,8 @@ public class ProgressDashboardMenuCommand implements Command {
     public String getName() { return "4"; }
     public String getMenuLabel() { return "Progress Dashboard"; }
     
-    public void execute(Scanner in) {
+    public boolean execute(Scanner in) {
         dashboardMenuHandler.runMenu("Progress Menu", in);
+        return true;
     }
 }

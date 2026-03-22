@@ -15,20 +15,28 @@ public class MenuHandler{
             .collect(Collectors.toMap(Command::getName, c -> c));
     }
 
-    public void runMenu(String title, Scanner in) {
-        while(true){
-            display(title);
-
-            String input = getInput(in);
-            Command command = commandMap.get(input);
-            if(command != null){
-                if(command.getMenuLabel().equals("Back")){ break; }
-                command.execute(in);
+    public void runMenu(String title, Scanner in){
+        while(true)
+        {
+            try { 
+                if(!processCommand(title, in)) { break; }
             }
-            else{
-                invalidOption();
-            }
+            catch(CommandLineException e) { System.out.println(e.getReason()); }
         }
+    }
+
+    public boolean processCommand(String title, Scanner in) throws CommandLineException{
+        display(title);
+
+        String input = getInput(in);
+        Command command = commandMap.get(input);
+        if(command != null){
+            if(command.getMenuLabel().equals("Back")) { return false; }
+            command.execute(in);
+        }
+        else{ throw new CommandLineException("Invalid Input, Try Again!"); }
+        
+        return true;
     }
 
     public void display(String title) {

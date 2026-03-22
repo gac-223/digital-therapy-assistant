@@ -9,8 +9,9 @@ public class StartNewSessionCommand implements Command {
     public String getName() { return "b"; }
     public String getMenuLabel() { return "Start New Session"; }
     
-    public void execute(Scanner in) {
+    public boolean execute(Scanner in) {
         System.out.println("Starting New Session...");
+        return true;
     }
 }
 

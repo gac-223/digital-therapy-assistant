@@ -8,6 +8,7 @@ import javax.imageio.plugins.tiff.ExifGPSTagSet;
 import org.springframework.stereotype.Component;
 
 import com.digitaltherapyassistant.cli.Command;
+import com.digitaltherapyassistant.cli.CommandLineException;
 import com.digitaltherapyassistant.cli.MenuHandler;
 import com.digitaltherapyassistant.cli.commands.BackCommand;
 import com.digitaltherapyassistant.cli.commands.ExitCommand;
@@ -30,7 +31,8 @@ public class CrisisSupportMenuCommand implements Command {
     public String getName() { return "5"; }
     public String getMenuLabel() { return "Crisis Support"; }
     
-    public void execute(Scanner in) {
+    public boolean execute(Scanner in) {
         crisisMenuHandler.runMenu("Crisis Menu", in);
+        return true;
     }
 }
