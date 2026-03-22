@@ -9,8 +9,9 @@ public class ViewSessionHistoryCommand implements Command {
     public String getName() { return "c"; }
     public String getMenuLabel() { return "View Session History"; }
     
-    public void execute(Scanner in) {
+    public boolean execute(Scanner in) {
         System.out.println("Viewing Session History...");
+        return true;
     }
 }
 

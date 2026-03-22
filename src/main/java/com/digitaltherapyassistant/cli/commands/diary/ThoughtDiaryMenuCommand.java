@@ -8,6 +8,7 @@ import javax.swing.text.View;
 import org.springframework.stereotype.Component;
 
 import com.digitaltherapyassistant.cli.Command;
+import com.digitaltherapyassistant.cli.CommandLineException;
 import com.digitaltherapyassistant.cli.MenuHandler;
 import com.digitaltherapyassistant.cli.commands.BackCommand;
 import com.digitaltherapyassistant.cli.commands.ExitCommand;
@@ -30,7 +31,8 @@ public class ThoughtDiaryMenuCommand implements Command {
     public String getName() { return "3"; }
     public String getMenuLabel() { return "Thought Diary"; }
     
-    public void execute(Scanner in) {
-        diaryMenuHandler.runMenu("Diary Menu", in);
+    public boolean execute(Scanner in) {
+        diaryMenuHandler.runMenu("Thought Diary Menu", in);
+        return true;
     }
 }

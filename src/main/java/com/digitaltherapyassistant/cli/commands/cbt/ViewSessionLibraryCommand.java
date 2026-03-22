@@ -9,7 +9,8 @@ public class ViewSessionLibraryCommand implements Command {
     public String getName() { return "a"; }
     public String getMenuLabel() { return "View Session Library"; }
     
-    public void execute(Scanner in) {
+    public boolean execute(Scanner in) {
         System.out.println("Viewing Session Library...");
+        return true;
     }
 }
