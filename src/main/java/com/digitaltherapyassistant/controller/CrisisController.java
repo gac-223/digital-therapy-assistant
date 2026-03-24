@@ -1,9 +1,6 @@
 package com.digitaltherapyassistant.controller;
 
-import com.digitaltherapyassistant.dto.response.ApiResponse;
-import com.digitaltherapyassistant.dto.response.CopingStrategyResponse;
-import com.digitaltherapyassistant.dto.response.CrisisDetectionResponse;
-import com.digitaltherapyassistant.dto.response.TrustedContactResponse;
+import com.digitaltherapyassistant.dto.response.*;
 import com.digitaltherapyassistant.mapper.DtoMapper;
 import com.digitaltherapyassistant.service.CrisisService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -59,7 +56,7 @@ public class CrisisController {
 
     }
 
-    @Operation(summary = "", description =  = "")
+    @Operation(summary = "", description = "")
     @GetMapping("/safety-plan")
     public ResponseEntity<ApiResponse<SafetyPlanResponse>> getSafetyPlan() {
 
