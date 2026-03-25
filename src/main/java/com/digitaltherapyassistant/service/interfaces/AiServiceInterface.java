@@ -1,5 +1,6 @@
 package com.digitaltherapyassistant.service.interfaces;
 
+import com.digitaltherapyassistant.dto.response.CrisisDetectionResponse;
 import com.digitaltherapyassistant.model.CrisisDetectionResult;
 import com.digitaltherapyassistant.model.DiaryInsights;
 import com.digitaltherapyassistant.model.DistortionSuggestion;
@@ -16,7 +17,7 @@ public interface AiServiceInterface {
 
     List<String> generateReframingPrompts(String thought, List<String> distortionIds) ;
 
-    CrisisDetectionResult detectCrisis(String text) ;
+    CrisisDetectionResponse detectCrisis(String text) ;
 
     DiaryInsights generateInsights(UUID userId) ;
 

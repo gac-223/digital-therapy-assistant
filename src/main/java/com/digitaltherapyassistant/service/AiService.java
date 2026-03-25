@@ -1,5 +1,6 @@
 package com.digitaltherapyassistant.service;
 
+import com.digitaltherapyassistant.dto.response.CrisisDetectionResponse;
 import com.digitaltherapyassistant.model.CrisisDetectionResult;
 import com.digitaltherapyassistant.model.DiaryInsights;
 import com.digitaltherapyassistant.model.DistortionSuggestion;
@@ -32,9 +33,9 @@ public class AiService implements AiServiceInterface {
     }
 
     @Override
-    public CrisisDetectionResult detectCrisis(String text) {
+    public CrisisDetectionResponse detectCrisis(String text) {
 
-        return new CrisisDetectionResult();
+        return new CrisisDetectionResponse();
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.digitaltherapyassistant.service.rag;
 
-import com.digitaltherapyassistant.model.*;
+import com.digitaltherapyassistant.model.BurnoutContent;
+import com.digitaltherapyassistant.model.CbtTechnique;
+import com.digitaltherapyassistant.model.CrisisProtocol;
+import com.digitaltherapyassistant.model.Distortion;
 import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.annotation.PostConstruct;
 import org.springframework.ai.document.Document;
