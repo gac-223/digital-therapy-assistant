@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer.JwtConfigurer;
 import org.springframework.security.config.annotation.web.configurers.saml2.Saml2LogoutConfigurer.LogoutRequestConfigurer;
@@ -49,8 +50,8 @@ public class AuthServiceImpl implements AuthService{
 
             userRepository.save(user);
 
-            response.setAccessToken(tokenProvider.generateAccessToken(user.getName()));
-            response.setRefreshToken(tokenProvider.generateAccessToken(user.getName()));
+            response.setAccessToken(tokenProvider.generateAccessToken(user.getEmail()));
+            response.setRefreshToken(tokenProvider.generateAccessToken(user.getEmail()));
             response.setMessage("Registered");
             response.setUserID(user.getId());
 
@@ -61,18 +62,22 @@ public class AuthServiceImpl implements AuthService{
     }
 
     public AuthResponse login(LoginRequest request){
-
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                request.getUsername(),
-                request.getPassword()
-            )
-        );
-
         AuthResponse response = new AuthResponse();
-        response.setAccessToken(tokenProvider.generateAccessToken(request.getUsername()));
-        request.setUsername(request.getUsername());
-        response.setMessage("Logged In User " + request.getUsername());
+
+        try{
+            authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    request.getEmail(),
+                    request.getPassword()
+                )
+            );
+        }
+        catch(BadCredentialsException e){
+            response.setMessage("Invalid Credentials");
+            return response;
+        }
+        response.setAccessToken(tokenProvider.generateAccessToken(request.getEmail()));
+        response.setMessage("Logged In User " + request.getEmail());
         
         return response;
     }
