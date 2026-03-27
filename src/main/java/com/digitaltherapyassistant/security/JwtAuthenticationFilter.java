@@ -44,6 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         filterChain.doFilter(request, response);
     }
 
+    //Every Time Something Other than /auth is used
     public void authenticateRequest(HttpServletRequest request){
         try{
             String jwt = extractJwtFromRequest(request);
@@ -51,6 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
             if(StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)){
                 String username = tokenProvider.getUsernameFromToken(jwt);
 
+                //Acutally Loads by Email Instead Because Multiple Users can have same Name using CustomUserDetailsService
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authentication = 
                     new UsernamePasswordAuthenticationToken(
