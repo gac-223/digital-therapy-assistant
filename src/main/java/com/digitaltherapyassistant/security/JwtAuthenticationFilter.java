@@ -81,13 +81,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
                 logger.info("Authenticated user '{}' via JWT", email);
             }
             else{
-                logger.info("No JWT Token");
+                logger.info("Failed Authentication No JWT Token");
             }
         }
         catch(Exception e){
             logger.error("Could not set user authentication in security context: {}", e.getMessage());
         }
-        
     }
 
     private String extractJwtFromRequest(HttpServletRequest request){
