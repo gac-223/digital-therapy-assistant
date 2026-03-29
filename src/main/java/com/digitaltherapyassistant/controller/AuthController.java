@@ -29,17 +29,17 @@ public class AuthController {
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request)
     { 
         AuthResponse response = authService.register(request);
-        if(response.getMessage().equals("Registered")){
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        if(response.getAccessToken() == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request){
         AuthResponse response = authService.login(request);
         if(response.getAccessToken() == null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }   

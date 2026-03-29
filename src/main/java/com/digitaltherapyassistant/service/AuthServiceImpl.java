@@ -1,6 +1,7 @@
 package com.digitaltherapyassistant.service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -78,6 +79,11 @@ public class AuthServiceImpl implements AuthService{
             return response;
         }
 
+        Optional<User> user = userRepository.findByEmail(request.getEmail());
+        String userId = "";
+        if(user.isPresent()) { userId = user.get().getId(); }
+
+        response.setUserID(userId);
         response.setAccessToken(tokenProvider.generateAccessToken(request.getEmail()));
         response.setRefreshToken(tokenProvider.generateRefreshToken(request.getEmail()));
         response.setMessage("Logged In User " + request.getEmail());
@@ -98,7 +104,11 @@ public class AuthServiceImpl implements AuthService{
         }
 
         String userEmail = tokenProvider.getEmailFromToken(refreshToken);
-        //response.setUserID(tokenProvider.getUsernameFromToken());
+        Optional<User> user = userRepository.findByEmail(userEmail);
+        String userId = "";
+        if(user.isPresent()) { userId = user.get().getId(); }
+
+        response.setUserID(userId);
         response.setAccessToken(tokenProvider.generateAccessToken(userEmail));
         response.setRefreshToken(refreshToken);
         response.setMessage("Refreshed Token");
