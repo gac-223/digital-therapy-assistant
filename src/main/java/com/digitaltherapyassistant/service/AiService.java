@@ -1,6 +1,7 @@
 package com.digitaltherapyassistant.service;
 
 import com.digitaltherapyassistant.dto.response.CrisisDetectionResponse;
+import com.digitaltherapyassistant.model.CrisisDetectionResult;
 import com.digitaltherapyassistant.model.DiaryInsights;
 import com.digitaltherapyassistant.model.DistortionSuggestion;
 import com.digitaltherapyassistant.model.SessionSummary;
@@ -28,13 +29,14 @@ public class AiService implements AiServiceInterface {
 
     @Override
     public List<String> generateReframingPrompts(String thought, List<String> distortionIds) {
+
         return null;
     }
 
     @Override
-    public CrisisDetectionResponse detectCrisis(String text) {
+    public CrisisDetectionResult detectCrisis(String text) {
 
-        return new CrisisDetectionResponse();
+        return new CrisisDetectionResult();
     }
 
     @Override
