@@ -1,11 +1,13 @@
 package com.digitaltherapyassistant.cli;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class CLISession {
     private String token;
-    private String userId;
+    private UUID userId;
     private String email;
 
     public CLISession() {}
@@ -14,7 +16,7 @@ public class CLISession {
         return this.token != null;
     }
 
-    public void login(String email, String userId, String token){
+    public void login(String email, UUID userId, String token){
         this.email = email;
         this.userId = userId;
         this.token = token;
@@ -27,10 +29,10 @@ public class CLISession {
     }
 
     public void setToken(String token) { this.token = token; }
-    public void setUserID(String userId) { this.userId = userId; }
+    public void setUserID(UUID userId) { this.userId = userId; }
     public void setEmail(String email) { this.email = email; }
 
     public String getToken() { return this.token; }
-    public String getUserID() { return this.userId; }
+    public UUID getUserID() { return this.userId; }
     public String getEmail() { return this.email; }
 }
