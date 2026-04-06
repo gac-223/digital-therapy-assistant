@@ -1,9 +1,11 @@
 package com.digitaltherapyassistant.controller;
 
-import com.digitaltherapyassistant.dto.request.SafetyPlanRequest;
+import com.digitaltherapyassistant.dto.request.CrisisDetectionRequest;
+import com.digitaltherapyassistant.dto.request.SafetyPlanUpdateRequest;
 import com.digitaltherapyassistant.dto.response.*;
 import com.digitaltherapyassistant.entity.CopingStrategy;
 import com.digitaltherapyassistant.entity.TrustedContact;
+import com.digitaltherapyassistant.exception.ResourceNotFoundException;
 import com.digitaltherapyassistant.mapper.DtoMapper;
 import com.digitaltherapyassistant.service.interfaces.CrisisServiceInterface;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,18 +23,6 @@ import java.util.UUID;
 @Tag(name="Crises", description="Crisis Management – ")
 public class CrisisController {
 
-    // get coping strategies
-    // I wonder if I should source the coping strategies from the knowledge base?
-
-    // get emergency/trusted contacts
-
-    // get safety plan
-    // I wonder if the safety plan should also implement this
-
-    // update safety plan
-
-    // detect crisis
-
     private final CrisisServiceInterface crisisService ;
     private final DtoMapper mapper ;
 
@@ -49,9 +39,11 @@ public class CrisisController {
             @Parameter(description = "Filter By User Id")
             @RequestParam(required = true) UUID userId) {
 
-        SafetyPlanDto safetyPlan = this.crisisService.getSafetyPlan(userId) ;
-        List<TrustedContact> trustedContacts = this.crisisService.getTrustedContacts(String userId) ;
-        List<CopingStrategy> copingStrategies = this.crisisService.getCopingStrategies() ;
+        CrisisHubResponse crisisHub = this.crisisService.getCrisisHub(userId) ;
+
+        return ResponseEntity.ok(ApiResponse.success("Crisis Hub Retrieved Successfully", crisisHub)) ;
+
+
 
     }
 
@@ -72,10 +64,9 @@ public class CrisisController {
     @PostMapping("/detect")
     public ResponseEntity<ApiResponse<CrisisDetectionResponse>> detectCrisis(
             @Parameter(description = "String to analyze for crisis detection")
-            @RequestParam(required = true) String text
-    ) {
+            @Valid @RequestBody CrisisDetectionRequest crisisDetectionRequest) {
 
-        CrisisDetectionResponse response = this.crisisService.detectCrisis(text) ;
+        CrisisDetectionResponse response = this.crisisService.detectCrisis(crisisDetectionRequest.getBody()) ;
 
         return ResponseEntity.ok(ApiResponse.success("Crisis Detection Successful", response)) ;
 
@@ -88,24 +79,21 @@ public class CrisisController {
             @RequestParam(required = true) UUID userId
     ) {
 
-        SafetyPlan safetyPlan = this.crisisService.getSafetyPlan(userId) ;
-
-        SafetyPlanResponse safetyPlanResponse = this.mapper.toSafetyPlanResponse(safetyPlan) ;
-
-        return ResponseEntity.ok(ApiResponse.success("Safety Plan Retrieved Successfully", safetyPlanResponse)) ;
+        SafetyPlanResponse safetyPlan = this.crisisService.getSafetyPlan(userId);
+        return ResponseEntity.ok(ApiResponse.success("Safety Plan Retrieved Successfully", safetyPlan));
 
     }
 
     @Operation(summary = "Update user safety plan", description = "Update the user safety plan to new user provided information")
     @PutMapping("/safety-plan")
     public ResponseEntity<ApiResponse<SafetyPlanResponse>> updateSafetyPlan(
-            @Valid @RequestBody SafetyPlanRequest request) {
+            @Valid @RequestBody SafetyPlanUpdateRequest request) {
 
-        SafetyPlanDto safetyPlan = this.crisisService.updateSafetyPlan(request.getUserId(), request.getSafetyPlan());
 
-        SafetyPlanResponse safetyPlanResponse = this.mapper.toSafetyPlanResponse(safetyPlan) ;
+        SafetyPlanResponse safetyPlan = this.crisisService.updateSafetyPlan(request.getUserId(), request.getSafetyPlan());
+        return ResponseEntity.ok(ApiResponse.success("Safety Plan Updated Successfully", safetyPlan)) ;
 
-        return ResponseEntity.ok(ApiResponse.success("Safety Plan Updated Successfully", safetyPlanResponse)) ;
+
     }
 
 
