@@ -1,9 +1,6 @@
 package com.digitaltherapyassistant.service;
 
 import com.digitaltherapyassistant.dto.response.CrisisDetectionResponse;
-import com.digitaltherapyassistant.model.DiaryInsightsDto;
-import com.digitaltherapyassistant.model.DistortionSuggestionDto;
-import com.digitaltherapyassistant.model.SessionSummaryDto;
 import com.digitaltherapyassistant.service.interfaces.AiServiceInterface;
 import com.digitaltherapyassistant.service.interfaces.CrisisServiceInterface;
 import org.springframework.ai.chat.model.ChatResponse;
@@ -24,8 +21,8 @@ public class AiService implements AiServiceInterface {
     }
 
     @Override
-    public List<DistortionSuggestionDto> analyzeThought(String automaticThought) {
-        List<DistortionSuggestionDto> suggestions = new ArrayList<>() ;
+    public List<DistortionSuggestion> analyzeThought(String automaticThought) {
+        List<DistortionSuggestion> suggestions = new ArrayList<>() ;
 
         return suggestions;
     }

@@ -8,7 +8,8 @@ import java.util.List;
 @Data
 public class CrisisHubResponse {
 
-    private List<TrustedContactResponse> trustedContacts = new ArrayList<>() ;
-    private String safetyPlan ;
+    private List<TrustedContactResponse> trustedContacts ;
+    private List<CopingStrategyResponse> copingStrategies ;
+    private SafetyPlanResponse safetyPlan ;
 
 }
