@@ -1,8 +1,8 @@
 package com.digitaltherapyassistant.service;
 
-import com.digitaltherapyassistant.dto.response.CrisisDetectionResponse;
-import com.digitaltherapyassistant.dto.response.CrisisHubResponse;
-import com.digitaltherapyassistant.dto.response.SafetyPlanResponse;
+import com.digitaltherapyassistant.dto.response.crisis.CrisisDetectionResponse;
+import com.digitaltherapyassistant.dto.response.crisis.CrisisHubResponse;
+import com.digitaltherapyassistant.dto.response.crisis.SafetyPlanResponse;
 import com.digitaltherapyassistant.entity.CopingStrategy;
 import com.digitaltherapyassistant.entity.TrustedContact;
 import com.digitaltherapyassistant.entity.User;
@@ -50,18 +50,15 @@ public class CrisisService implements CrisisServiceInterface {
 
     @Override
     public List<CopingStrategy> getCopingStrategies() {
-        List<CopingStrategy> strategies = this.copingStrategyRepository.findAll() ;
 
-
-        return strategies ;
+        return this.copingStrategyRepository.findAll();
 
     }
 
     @Override
     public List<TrustedContact> getTrustedContacts(UUID userId) {
-        User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId.toString())) ;
 
-        return user.getTrustedContacts() ;
+        return this.userRepository.getTrustedContacts(userId);
     }
 
     @Override

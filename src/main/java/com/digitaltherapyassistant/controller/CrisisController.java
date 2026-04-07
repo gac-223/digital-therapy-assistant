@@ -1,11 +1,13 @@
 package com.digitaltherapyassistant.controller;
 
-import com.digitaltherapyassistant.dto.request.CrisisDetectionRequest;
-import com.digitaltherapyassistant.dto.request.SafetyPlanUpdateRequest;
+import com.digitaltherapyassistant.dto.request.crisis.CrisisDetectionRequest;
+import com.digitaltherapyassistant.dto.request.crisis.SafetyPlanUpdateRequest;
 import com.digitaltherapyassistant.dto.response.*;
+import com.digitaltherapyassistant.dto.response.crisis.CopingStrategyResponse;
+import com.digitaltherapyassistant.dto.response.crisis.CrisisDetectionResponse;
+import com.digitaltherapyassistant.dto.response.crisis.CrisisHubResponse;
+import com.digitaltherapyassistant.dto.response.crisis.SafetyPlanResponse;
 import com.digitaltherapyassistant.entity.CopingStrategy;
-import com.digitaltherapyassistant.entity.TrustedContact;
-import com.digitaltherapyassistant.exception.ResourceNotFoundException;
 import com.digitaltherapyassistant.mapper.DtoMapper;
 import com.digitaltherapyassistant.service.interfaces.CrisisServiceInterface;
 import io.swagger.v3.oas.annotations.Operation;

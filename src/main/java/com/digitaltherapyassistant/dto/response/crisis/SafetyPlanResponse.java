@@ -1,4 +1,4 @@
-package com.digitaltherapyassistant.dto.response;
+package com.digitaltherapyassistant.dto.response.crisis;
 
 import lombok.Data;
 

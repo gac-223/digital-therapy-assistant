@@ -1,6 +1,6 @@
 package com.digitaltherapyassistant.service.rag;
 
-import com.digitaltherapyassistant.dto.response.CrisisDetectionResponse;
+import com.digitaltherapyassistant.dto.response.crisis.CrisisDetectionResponse;
 import org.springframework.ai.chat.client.ChatClient;
 
 import java.util.ArrayList;
@@ -14,9 +14,12 @@ public class CrisisDetector {
     ) ;
 
     private final ChatClient chatClient ;
+    private final RagContextBuilder ragContextBuilder ;
 
-    public CrisisDetector(ChatClient chatClient) {
+    public CrisisDetector(ChatClient chatClient, RagContextBuilder ragContextBuilder) {
+
         this.chatClient = chatClient;
+        this.ragContextBuilder = ragContextBuilder ;
     }
 
     public CrisisDetectionResponse analyze(String text) {
@@ -31,6 +34,27 @@ public class CrisisDetector {
         }
 
         // layer 2: AI based semantic analysis
+        StringBuilder prompt = new StringBuilder() ;
+        prompt.append(String.format("Analyze the following text for crisis indicators. " +
+                "Assess risk level and recommended appropriate action." +
+                "\nText: %s\nEvaluate for:\n" +
+                "Suicidal ideation or self-harm mentions, " +
+                "Expressions of hopelessness, " +
+                "Statements about being a burden, " +
+                "Plans or intentions to harm self/others, or" +
+                "Severe Emotional distress\n\nReturn a JSON in the following format:\n" +
+                "{\n" +
+                    "\"riskLevel\": \"none|low|medium|high|critical\",\n" +
+                    "\"keywordsDetected\": %s,\n" +
+                    "\"recommendedAction\": \"none|show_resources|show_crisis_hub|immediate_intervention\",\n" +
+                    "\"reasoning\": \"...\"\n" +
+                "}"
+        , text, keywordsDetected));
+
+        chatClient.prompt().system
+
+
+
         // combine signals - err on the side of caution
 
         return new CrisisDetectionResponse() ;

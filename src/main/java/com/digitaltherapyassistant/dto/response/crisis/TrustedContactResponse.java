@@ -1,8 +1,6 @@
-package com.digitaltherapyassistant.dto.response;
+package com.digitaltherapyassistant.dto.response.crisis;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 public class TrustedContactResponse {

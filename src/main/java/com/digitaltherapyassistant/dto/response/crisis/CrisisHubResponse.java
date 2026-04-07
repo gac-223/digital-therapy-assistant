@@ -1,8 +1,7 @@
-package com.digitaltherapyassistant.dto.response;
+package com.digitaltherapyassistant.dto.response.crisis;
 
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

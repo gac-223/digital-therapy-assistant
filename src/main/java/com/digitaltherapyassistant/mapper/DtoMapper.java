@@ -1,8 +1,8 @@
 package com.digitaltherapyassistant.mapper;
 
-import com.digitaltherapyassistant.dto.response.CopingStrategyResponse;
-import com.digitaltherapyassistant.dto.response.SafetyPlanResponse;
-import com.digitaltherapyassistant.dto.response.TrustedContactResponse;
+import com.digitaltherapyassistant.dto.response.crisis.CopingStrategyResponse;
+import com.digitaltherapyassistant.dto.response.crisis.SafetyPlanResponse;
+import com.digitaltherapyassistant.dto.response.crisis.TrustedContactResponse;
 import com.digitaltherapyassistant.entity.CopingStrategy;
 import com.digitaltherapyassistant.entity.TrustedContact;
 import org.springframework.stereotype.Component;

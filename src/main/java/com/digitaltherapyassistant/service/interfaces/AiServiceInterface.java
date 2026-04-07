@@ -1,6 +1,8 @@
 package com.digitaltherapyassistant.service.interfaces;
 
-import com.digitaltherapyassistant.dto.response.CrisisDetectionResponse;
+import com.digitaltherapyassistant.dto.response.crisis.CrisisDetectionResponse;
+import com.digitaltherapyassistant.dto.response.session.SessionSummary;
+import com.digitaltherapyassistant.model.Distortion;
 import org.springframework.ai.chat.model.ChatResponse;
 
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.UUID;
 public interface AiServiceInterface {
     ChatResponse generateResponse(UUID sessionId, String userMessage) ;
 
-    List<DistortionSuggestion> analyzeThought(String automaticThought) ;
+    List<Distortion> analyzeThought(String automaticThought) ;
 
     List<String> generateReframingPrompts(String thought, List<String> distortionIds) ;
 
@@ -17,7 +19,7 @@ public interface AiServiceInterface {
 
     DiaryInsightsDto generateInsights(UUID userId) ;
 
-    SessionSummaryDto summarizeSession(UUID sessionId) ;
+    SessionSummary summarizeSession(UUID sessionId) ;
 
 }
 

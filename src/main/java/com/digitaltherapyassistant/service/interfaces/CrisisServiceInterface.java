@@ -1,10 +1,9 @@
 package com.digitaltherapyassistant.service.interfaces;
 
 
-import com.digitaltherapyassistant.dto.request.SafetyPlanUpdateRequest;
-import com.digitaltherapyassistant.dto.response.CrisisDetectionResponse;
-import com.digitaltherapyassistant.dto.response.CrisisHubResponse;
-import com.digitaltherapyassistant.dto.response.SafetyPlanResponse;
+import com.digitaltherapyassistant.dto.response.crisis.CrisisDetectionResponse;
+import com.digitaltherapyassistant.dto.response.crisis.CrisisHubResponse;
+import com.digitaltherapyassistant.dto.response.crisis.SafetyPlanResponse;
 import com.digitaltherapyassistant.entity.CopingStrategy;
 import com.digitaltherapyassistant.entity.TrustedContact;
 

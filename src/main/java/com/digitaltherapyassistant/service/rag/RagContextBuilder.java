@@ -1,5 +1,6 @@
 package com.digitaltherapyassistant.service.rag;
 
+import com.digitaltherapyassistant.entity.CbtSession;
 import com.digitaltherapyassistant.entity.ChatMessage;
 import com.digitaltherapyassistant.entity.CognitiveDistortion;
 import com.digitaltherapyassistant.entity.UserSession;
@@ -37,10 +38,17 @@ public class RagContextBuilder {
 
         // 2 retrieve relevant past session data via vector similarity search
         List<Document> relevantPastSessionData = this.embeddingService.searchByTypeAndId(query, "sessionData", userId.toString(), 5) ;
-        context.append(String.format("Relevant Past Session Data: %s\n", relevantPastSessionData)) ;
+        context.append(String.format("Relevant Past Session Data: %s\n", this.embeddingService.extractContext(relevantPastSessionData))) ;
 
         // 3. get user recent session history
-        List<UserSession> recentSessionHistory = this.sessionRepository.findByUserIdOrderByStartedAtDescLimit3(userId) ;
+        StringBuilder recentSessionString = new StringBuilder() ;
+        recentSessionString.append(String.format("Recent Session History:\n")) ;
+        List<UserSession> recentSessionHistory = this.sessionRepository.findRecentSessionHistoryByUserId(userId).stream().limit(3).toList() ;
+        for (UserSession session : recentSessionHistory) {
+            CbtSession cbtSession = session.getCbtSession() ;
+            recentSessionString.append(String.format("Session Topic: %s\nDescription: %s\nObjectives: %s\nStart Time: %s\nEnd Time: %s\nMood Before: %s\nMood After: %s\n", cbtSession.getTitle(), cbtSession.getDescription(), cbtSession.getObjectives(), session.getStartedAt(), session.getEndedAt(), session.getMoodBefore(), session.getMoodAfter())) ;
+        }
+        context.append(recentSessionString.toString()) ;
 
 
         // 4. get user diary patterns
@@ -53,7 +61,7 @@ public class RagContextBuilder {
 
         // 5. get current session transcript
 //        UserSession session = this.sessionRepository.findSessionWithChatMessages(sessionId).orElseThrow(() -> new ResourceNotFoundException("UserSession", "id", sessionId.toString())) ;
-        List<ChatMessage> chatMessages = this.chatMessageRepository.findByUserSessionIdOrderByTimestampAsc(sessionId).orElseThrow(() -> new ResourceNotFoundException("ChatMessage", "userSessionId", sessionId.toString())) ;
+        List<ChatMessage> chatMessages = this.chatMessageRepository.findByUserSessionIdOrderByTimestampAsc(sessionId) ;
         StringBuilder transcript = new StringBuilder() ;
         for (ChatMessage message : chatMessages) {
             transcript.append(String.format("%s: %s\n", message.getRole(), message.getContent())) ;
