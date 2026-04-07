@@ -52,6 +52,7 @@ public class CrisisService implements CrisisServiceInterface {
     public List<CopingStrategy> getCopingStrategies() {
         List<CopingStrategy> strategies = this.copingStrategyRepository.findAll() ;
 
+
         return strategies ;
 
     }

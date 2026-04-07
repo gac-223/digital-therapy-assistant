@@ -13,7 +13,11 @@ import java.util.UUID;
 @Service
 public class AiService implements AiServiceInterface {
 
-    private CrisisServiceInterface crisisService ;
+    private final CrisisServiceInterface crisisService ;
+
+    public AiService(CrisisServiceInterface crisisService) {
+        this.crisisService = crisisService ;
+    }
 
     @Override
     public ChatResponse generateResponse(UUID sessionId, String userMessage) {

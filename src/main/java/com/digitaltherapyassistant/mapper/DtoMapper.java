@@ -5,7 +5,6 @@ import com.digitaltherapyassistant.dto.response.SafetyPlanResponse;
 import com.digitaltherapyassistant.dto.response.TrustedContactResponse;
 import com.digitaltherapyassistant.entity.CopingStrategy;
 import com.digitaltherapyassistant.entity.TrustedContact;
-import com.digitaltherapyassistant.repository.CopingStrategyRepository;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,10 +31,6 @@ public class DtoMapper {
         return response ;
     }
 
-
-//    public CrisisDetectionResponse toCrisisDetectionResponse(CrisisDetectionResult crisisDetectionResult) {
-//
-//    }
 
 
     public SafetyPlanResponse toSafetyPlanResponse(String safetyPlan) {

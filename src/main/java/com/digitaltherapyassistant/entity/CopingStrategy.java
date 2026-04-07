@@ -23,7 +23,7 @@ public class CopingStrategy {
     private String description ;
 
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "cognitive_distortion_examples", joinColumns = @JoinColumn(name = "cognitive_distortion_id"))
+    @CollectionTable(name = "coping_strategy_steps", joinColumns = @JoinColumn(name = "coping_strategy_steps_id"))
     @Column(name = "steps")
     private List<String> steps ;
 }
