@@ -9,5 +9,5 @@ import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-    List<TrustedContact> getTrustedContacts(UUID userId);
+    public List<TrustedContact> getTrustedContacts(UUID userId);
 }

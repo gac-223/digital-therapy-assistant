@@ -7,12 +7,9 @@ import com.digitaltherapyassistant.exception.ResourceNotFoundException;
 import com.digitaltherapyassistant.repository.ChatMessageRepository;
 import com.digitaltherapyassistant.repository.DiaryEntryRepository;
 import com.digitaltherapyassistant.repository.UserSessionRepository;
-import com.digitaltherapyassistant.service.rag.EmbeddingService;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
-import org.springframework.ai.vectorstore.VectorStore;
-
-import java.nio.file.ReadOnlyFileSystemException;
+import org.springframework.data.domain.PageRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,7 +44,7 @@ public class RagContextBuilder {
 
 
         // 4. get user diary patterns
-        List<CognitiveDistortion> topDistortions = this.diaryRepository.findTopDistortionsByUser(userId, 3);
+        List<CognitiveDistortion> topDistortions = this.diaryRepository.findTopDistortionsByUser(userId, PageRequest.of(0, 3)).stream().toList();
         context.append(String.format("Top User Cognitive Distortions: %s\n", topDistortions)) ;
 
         Integer averageMoodImprovement = this.diaryRepository.getAverageMoodImprovement() ;
@@ -56,7 +53,7 @@ public class RagContextBuilder {
 
         // 5. get current session transcript
 //        UserSession session = this.sessionRepository.findSessionWithChatMessages(sessionId).orElseThrow(() -> new ResourceNotFoundException("UserSession", "id", sessionId.toString())) ;
-        List<ChatMessage> chatMessages = this.chatMessageRepository.findByUserSessionId(sessionId).orElseThrow(() -> new ResourceNotFoundException("ChatMessage", "userSessionId", sessionId.toString())) ;
+        List<ChatMessage> chatMessages = this.chatMessageRepository.findByUserSessionIdOrderByTimestampAsc(sessionId).orElseThrow(() -> new ResourceNotFoundException("ChatMessage", "userSessionId", sessionId.toString())) ;
         StringBuilder transcript = new StringBuilder() ;
         for (ChatMessage message : chatMessages) {
             transcript.append(String.format("%s: %s\n", message.getRole(), message.getContent())) ;
