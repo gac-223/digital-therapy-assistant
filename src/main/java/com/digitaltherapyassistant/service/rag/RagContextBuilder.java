@@ -10,13 +10,15 @@ import com.digitaltherapyassistant.repository.DiaryEntryRepository;
 import com.digitaltherapyassistant.repository.UserSessionRepository;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
+import org.springframework.stereotype.Component;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
-@Service
+@Component
 public class RagContextBuilder {
     private final SimpleVectorStore vectorStore ;
     private final EmbeddingService embeddingService ;
