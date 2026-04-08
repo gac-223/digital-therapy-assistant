@@ -14,6 +14,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +23,11 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/crisis")
-@Tag(name="Crises", description="Crisis Management – ")
+@RequestMapping("/crisis")
+@Tag(name="Crises", description="Crisis Management – Crisis Hub, Trusted Contacts, Safety Plan")
 public class CrisisController {
+
+    private static final Logger log = LoggerFactory.getLogger(CrisisController.class) ;
 
     private final CrisisServiceInterface crisisService ;
     private final DtoMapper mapper ;
@@ -49,7 +53,7 @@ public class CrisisController {
 
     }
 
-    @Operation(summary = "Retrieve coping strategies", description = "Retrieve a list of common coping strategies to help use for immediate relief filtered by User Id")
+    @Operation(summary = "Retrieve coping strategies", description = "Retrieve a list of common coping strategies to help use for immediate relief")
     @GetMapping("/coping-strategies")
     public ResponseEntity<ApiResponse<List<CopingStrategyResponse>>> getCopingStrategies() {
 

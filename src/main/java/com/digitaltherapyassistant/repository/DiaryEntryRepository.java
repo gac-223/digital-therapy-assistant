@@ -29,7 +29,7 @@ public interface DiaryEntryRepository extends JpaRepository<DiaryEntry, UUID> {
            "WHERE de.user.id = :userId AND de.deleted = false " +
            "AND de.moodBefore IS NOT NULL AND de.moodAfter IS NOT NULL")
     Double calculateAverageMoodImprovement(@Param("userId") UUID userId);
-    Page<DiaryEntry> findByUserIdAndDeleteFalseOrderByCreatedAtDesc(UUID userId, Pageable pageable);
+
 
     @Query("SELECT dis FROM DiaryEntry d " +
             "JOIN d.distortions dis " +
@@ -37,9 +37,5 @@ public interface DiaryEntryRepository extends JpaRepository<DiaryEntry, UUID> {
             "GROUP BY dis " +
             "ORDER BY COUNT(dis) DESC ")
     public Page<CognitiveDistortion> findTopDistortionsByUser(@Param("userId") UUID userId, Pageable pageable);
-
-    @Query("SELECT AVG(d.beliefRatingAfter - d.beliefRatingBefore) FROM DiaryEntry d " +
-            "WHERE d.user.id = :userId")
-    public Optional<Double> findAvgMoodImprovementByUser(@Param("userId") UUID userId);
 
 }

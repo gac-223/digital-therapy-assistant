@@ -11,9 +11,12 @@ import com.digitaltherapyassistant.repository.UserSessionRepository;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class RagContextBuilder {
     private final SimpleVectorStore vectorStore ;
     private final EmbeddingService embeddingService ;
@@ -60,7 +63,6 @@ public class RagContextBuilder {
 
 
         // 5. get current session transcript
-//        UserSession session = this.sessionRepository.findSessionWithChatMessages(sessionId).orElseThrow(() -> new ResourceNotFoundException("UserSession", "id", sessionId.toString())) ;
         List<ChatMessage> chatMessages = this.chatMessageRepository.findByUserSessionIdOrderByTimestampAsc(sessionId) ;
         StringBuilder transcript = new StringBuilder() ;
         for (ChatMessage message : chatMessages) {

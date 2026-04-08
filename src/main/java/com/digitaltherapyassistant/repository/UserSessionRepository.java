@@ -23,6 +23,7 @@ public interface UserSessionRepository extends JpaRepository<UserSession, UUID> 
     Optional<List<UserSession>> findAllByUser(User user);
 
     List<UserSession> findByUserIdOrderByStartedAtDesc(UUID userId);
+
     @Query("SELECT us FROM UserSession us " +
             "JOIN FETCH us.cbtSession " +
             "WHERE us.user.id = :userId " +
@@ -37,6 +38,7 @@ public interface UserSessionRepository extends JpaRepository<UserSession, UUID> 
 
     @Query("SELECT COUNT(us) FROM UserSession us WHERE us.user.id = :userId AND us.status = 'COMPLETED'")
     long countCompletedSessionsByUser(@Param("userId") UUID userId);
+
     @Query("SELECT COUNT(us) FROM UserSession us " +
             "WHERE us.user.id = :userId " +
             "AND us.status = Status.COMPLETED")

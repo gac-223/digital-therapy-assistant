@@ -50,9 +50,11 @@ public class DiaryEntry {
     private String alternativeThought;
 
     @Column(name = "mood_before")
+    @Check(constraints = "mood_before >= 1 AND mood_before <= 10")
     private Integer moodBefore;
 
     @Column(name = "mood_after")
+    @Check(constraints = "mood_after >= 1 AND mood_after <= 10")
     private Integer moodAfter;
 
     @Column(name = "belief_rating_before")
