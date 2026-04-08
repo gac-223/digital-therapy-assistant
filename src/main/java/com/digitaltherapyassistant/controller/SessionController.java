@@ -49,7 +49,7 @@ public class SessionController {
     @PostMapping("/{sessionId}/start")
     public ResponseEntity<ActiveSession> startSession(@PathVariable UUID sessionId, @RequestBody StartSessionRequest request){                                                            
         ActiveSession response = sessionService.startSession(request.getUserId(), sessionId);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PostMapping("/{sessionId}/chat")

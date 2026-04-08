@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/progress")
+@RequestMapping("/api/progress")
 @RequiredArgsConstructor
 @Slf4j
 public class ProgressController {

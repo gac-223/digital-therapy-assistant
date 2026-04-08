@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/diary")
+@RequestMapping("/api/diary")
 @RequiredArgsConstructor
 @Slf4j
 public class DiaryController {
@@ -53,7 +53,7 @@ public class DiaryController {
         log.debug("DELETE /diary/entries/{}", entryId);
         diaryService.deleteEntry(entryId);
         return ResponseEntity.noContent().build();
-    }
+    }   
 
     @PostMapping("/distortions/suggest")
     public ResponseEntity<List<DistortionSuggestion>> suggestDistortions(
