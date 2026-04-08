@@ -124,11 +124,17 @@ public class DiaryMenuTest {
             .thenReturn(userId.toString())
             .thenReturn("")
             .thenReturn("");
-
+        
         assertEquals(true, viewEntriesCommand.execute(in));
         verify(diaryAPIClient).getEntries(argThat(id -> id.equals(userId)), any(Pageable.class));
         assertEquals("b", viewEntriesCommand.getName());
         assertEquals("View Entries", viewEntriesCommand.getMenuLabel());
+
+        when(in.nextLine())
+            .thenReturn(userId.toString())
+            .thenReturn("5")
+            .thenReturn("5");
+        assertEquals(true, viewEntriesCommand.execute(in));
     }
 
     @Test
