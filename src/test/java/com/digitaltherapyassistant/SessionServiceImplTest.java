@@ -48,11 +48,23 @@ public class SessionServiceImplTest {
 
     @Test
     public void testGetSessionLibrary(){
+        UUID sessionId = UUID.randomUUID();
+        List<CbtSession> cbtSessions = new ArrayList<>();
+        CbtSession session = new CbtSession();
+        session.setId(sessionId);
+        session.setTitle("Test Session");
+        session.setDescription("Test Description");
+        session.setDurationMinutes(30);
+        session.setObjectives(new ArrayList<>());
+        session.setModalities(new ArrayList<>());
+        session.setOrderIndex(1);
+        cbtSessions.add(session);
+
         List<SessionModule> modules = new ArrayList<>();
         for(int i = 0; i < 5; ++i){
             SessionModule module = new SessionModule();
             module.setId(UUID.randomUUID().toString());
-            module.setCbtSessions(new ArrayList<>());
+            module.setCbtSessions(cbtSessions);
             modules.add(module);
         }
 
@@ -65,6 +77,7 @@ public class SessionServiceImplTest {
         assertEquals(5, response.size());
         for(int i = 0; i < 5; ++i){
             assertEquals(modules.get(i).getId(), response.get(i).getId());
+            //assertEquals(modules.get(i).getCbtSessions(), response.get(i).getSessions());
             assertEquals("Retreived Session Data for Module", response.get(i).getMessage());
         }
     }
