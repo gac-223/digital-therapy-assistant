@@ -3,8 +3,6 @@ package com.digitaltherapyassistant.cli.commands.diary;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.text.View;
-
 import org.springframework.stereotype.Component;
 
 import com.digitaltherapyassistant.cli.Command;

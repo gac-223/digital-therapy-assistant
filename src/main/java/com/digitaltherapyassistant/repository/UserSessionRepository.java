@@ -1,10 +1,27 @@
 package com.digitaltherapyassistant.repository;
 
 import com.digitaltherapyassistant.entity.UserSession;
+import com.digitaltherapyassistant.entity.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
-public interface UserSessionRepository extends JpaRepository<UserSession, UUID> {
+public interface UserSessionRepository extends JpaRepository<UserSession, String> {
 
+    List<UserSession> findByUserIdOrderByStartedAtDesc(String userId);
+
+    @Query("SELECT us FROM UserSession us WHERE us.user.id = :userId AND us.startedAt BETWEEN :start AND :end")
+    List<UserSession> findByUserIdAndDateRange(
+            @Param("userId") String userId,
+            @Param("start") LocalDateTime start,
+            @Param("end") LocalDateTime end);
+
+    @Query("SELECT COUNT(us) FROM UserSession us WHERE us.user.id = :userId AND us.status = 'COMPLETED'")
+    long countCompletedSessionsByUser(@Param("userId") String userId);
+
+    Optional<UserSession> findFirstByUserIdAndStatusOrderByStartedAtDesc(String userId, Status status);
 }

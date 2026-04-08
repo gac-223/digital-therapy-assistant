@@ -2,7 +2,6 @@ package com.digitaltherapyassistant.cli.commands.auth;
 
 import java.util.Scanner;
 
-import org.apache.commons.logging.Log;
 import org.springframework.stereotype.Component;
 
 import com.digitaltherapyassistant.cli.Command;
