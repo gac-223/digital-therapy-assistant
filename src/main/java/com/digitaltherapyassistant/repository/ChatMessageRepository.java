@@ -1,8 +1,14 @@
 package com.digitaltherapyassistant.repository;
 
 import com.digitaltherapyassistant.entity.ChatMessage;
+import com.digitaltherapyassistant.entity.UserSession;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, String> {
 
+    List<ChatMessage> findAllByUserSession(UserSession session);
+
+    List<ChatMessage> findByUserSessionIdOrderByTimestampAsc(String userSessionId);
 }

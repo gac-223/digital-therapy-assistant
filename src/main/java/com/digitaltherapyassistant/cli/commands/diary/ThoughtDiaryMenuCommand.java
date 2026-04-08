@@ -27,7 +27,8 @@ public class ThoughtDiaryMenuCommand implements Command {
     public String getName() { return "3"; }
     public String getMenuLabel() { return "Thought Diary"; }
     
-    public void execute(Scanner in) {
-        diaryMenuHandler.runMenu("Diary Menu", in);
+    public boolean execute(Scanner in) {
+        diaryMenuHandler.runMenu("Thought Diary Menu", in);
+        return true;
     }
 }

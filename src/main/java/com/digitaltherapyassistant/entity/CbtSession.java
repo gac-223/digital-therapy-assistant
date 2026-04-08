@@ -7,16 +7,17 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
-@Table(name = "cbt_session")
+@Table(name = "cbt_session", indexes = @Index(columnList = "order_index"))
 @Data
 @NoArgsConstructor
 public class CbtSession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session_module_id", nullable = false)

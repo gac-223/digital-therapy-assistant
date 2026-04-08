@@ -1,7 +1,9 @@
 package com.digitaltherapyassistant.repository;
 
-import com.digitaltherapyassistant.entity.UserSession;
+import com.digitaltherapyassistant.entity.CbtSession;
 import com.digitaltherapyassistant.entity.Status;
+import com.digitaltherapyassistant.entity.User;
+import com.digitaltherapyassistant.entity.UserSession;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,6 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserSessionRepository extends JpaRepository<UserSession, String> {
+
+    Optional<UserSession> findByCbtSession(CbtSession session);
+
+    Optional<List<UserSession>> findAllByUser(User user);
 
     List<UserSession> findByUserIdOrderByStartedAtDesc(String userId);
 

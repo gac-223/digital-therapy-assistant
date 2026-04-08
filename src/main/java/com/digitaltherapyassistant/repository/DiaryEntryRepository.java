@@ -1,7 +1,7 @@
 package com.digitaltherapyassistant.repository;
 
-import com.digitaltherapyassistant.entity.DiaryEntry;
 import com.digitaltherapyassistant.entity.CognitiveDistortion;
+import com.digitaltherapyassistant.entity.DiaryEntry;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

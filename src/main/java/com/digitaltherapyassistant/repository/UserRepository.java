@@ -1,11 +1,18 @@
 package com.digitaltherapyassistant.repository;
 
+import com.digitaltherapyassistant.entity.TrustedContact;
 import com.digitaltherapyassistant.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, String> {
 
     Optional<User> findByEmail(String email);
+
+    @Query("SELECT tc FROM TrustedContact tc WHERE tc.user.id = :userId")
+    List<TrustedContact> getTrustedContacts(@Param("userId") String userId);
 }

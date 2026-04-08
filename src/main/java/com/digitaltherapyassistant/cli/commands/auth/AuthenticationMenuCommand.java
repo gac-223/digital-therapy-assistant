@@ -2,6 +2,7 @@ package com.digitaltherapyassistant.cli.commands.auth;
 
 import java.util.List;
 import java.util.Scanner;
+
 import org.springframework.stereotype.Component;
 
 import com.digitaltherapyassistant.cli.Command;
@@ -20,14 +21,15 @@ public class AuthenticationMenuCommand implements Command {
     )
     {
         this.authMenuHandler = new MenuHandler(
-            List.of(registerCommand, 
-                loginCommand, logoutCommand, backCommand));
+            List.<Command>of(registerCommand, loginCommand,
+                logoutCommand, backCommand));
     }
 
     public String getName() { return "1"; }
     public String getMenuLabel() { return "Authentication"; }
 
-    public void execute(Scanner in) {
+    public boolean execute(Scanner in) {
         authMenuHandler.runMenu("Authentication Menu", in);
+        return true;
     }
 }
