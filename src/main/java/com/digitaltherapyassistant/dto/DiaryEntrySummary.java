@@ -5,12 +5,13 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 public class DiaryEntrySummary {
 
-    private String id;
+    private UUID id;
     private String situation;
     private String automaticThought;
     private Integer moodBefore;

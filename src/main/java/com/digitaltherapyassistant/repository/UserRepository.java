@@ -8,11 +8,12 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, UUID> {
 
     Optional<User> findByEmail(String email);
 
     @Query("SELECT tc FROM TrustedContact tc WHERE tc.user.id = :userId")
-    List<TrustedContact> getTrustedContacts(@Param("userId") String userId);
+    List<TrustedContact> getTrustedContacts(@Param("userId") UUID userId);
 }

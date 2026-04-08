@@ -6,13 +6,14 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 public class DiaryEntryResponse {
 
-    private String id;
-    private String userId;
+    private UUID id;
+    private UUID userId;
     private String situation;
     private String automaticThought;
     private List<EmotionRating> emotions;

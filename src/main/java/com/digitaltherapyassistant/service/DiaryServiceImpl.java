@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +31,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     @Transactional
-    public DiaryEntryResponse createEntry(String userId, DiaryEntryCreate request) {
+    public DiaryEntryResponse createEntry(UUID userId, DiaryEntryCreate request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
 
@@ -60,7 +61,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<DiaryEntrySummary> getEntries(String userId, Pageable pageable) {
+    public Page<DiaryEntrySummary> getEntries(UUID userId, Pageable pageable) {
         return diaryEntryRepository
                 .findByUserIdAndDeletedFalseOrderByCreatedAtDesc(userId, pageable)
                 .map(this::toSummary);
@@ -68,7 +69,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     @Transactional(readOnly = true)
-    public DiaryEntryDetail getEntryDetail(String entryId) {
+    public DiaryEntryDetail getEntryDetail(UUID entryId) {
         DiaryEntry entry = diaryEntryRepository.findById(entryId)
                 .orElseThrow(() -> new IllegalArgumentException("Diary entry not found: " + entryId));
 
@@ -81,7 +82,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     @Transactional
-    public void deleteEntry(String entryId) {
+    public void deleteEntry(UUID entryId) {
         DiaryEntry entry = diaryEntryRepository.findById(entryId)
                 .orElseThrow(() -> new IllegalArgumentException("Diary entry not found: " + entryId));
 
@@ -127,7 +128,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     @Transactional(readOnly = true)
-    public DiaryInsights getInsights(String userId) {
+    public DiaryInsights getInsights(UUID userId) {
         List<DiaryEntry> entries = diaryEntryRepository.findByUserIdAndDeletedFalse(userId);
         int total = entries.size();
 

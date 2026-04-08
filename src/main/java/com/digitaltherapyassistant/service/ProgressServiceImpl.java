@@ -4,6 +4,8 @@ import com.digitaltherapyassistant.dto.Achievement;
 import com.digitaltherapyassistant.dto.BurnoutRecovery;
 import com.digitaltherapyassistant.dto.MonthlyTrends;
 import com.digitaltherapyassistant.dto.WeeklySummary;
+import com.digitaltherapyassistant.entity.CognitiveDistortion;
+import com.digitaltherapyassistant.entity.DiaryEntry;
 import com.digitaltherapyassistant.entity.Status;
 import com.digitaltherapyassistant.entity.User;
 import com.digitaltherapyassistant.entity.UserSession;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +33,7 @@ public class ProgressServiceImpl implements ProgressService {
 
     @Override
     @Transactional(readOnly = true)
-    public WeeklySummary getWeeklySummary(String userId) {
+    public WeeklySummary getWeeklySummary(UUID userId) {
         User user = getUser(userId);
 
         LocalDateTime weekStart = LocalDateTime.now().minusDays(7);
@@ -41,10 +44,9 @@ public class ProgressServiceImpl implements ProgressService {
                 .filter(s -> s.getStatus() == Status.COMPLETED)
                 .count();
 
-        List<com.digitaltherapyassistant.entity.DiaryEntry> weekEntries =
-                diaryEntryRepository.findByUserIdAndDeletedFalse(userId).stream()
-                        .filter(e -> e.getCreatedAt() != null && e.getCreatedAt().isAfter(weekStart))
-                        .toList();
+        List<DiaryEntry> weekEntries = diaryEntryRepository.findByUserIdAndDeletedFalse(userId).stream()
+                .filter(e -> e.getCreatedAt() != null && e.getCreatedAt().isAfter(weekStart))
+                .toList();
 
         double avgMood = weekEntries.stream()
                 .filter(e -> e.getMoodBefore() != null && e.getMoodAfter() != null)
@@ -63,12 +65,11 @@ public class ProgressServiceImpl implements ProgressService {
 
     @Override
     @Transactional(readOnly = true)
-    public MonthlyTrends getMonthlyTrends(String userId) {
+    public MonthlyTrends getMonthlyTrends(UUID userId) {
         LocalDateTime monthStart = LocalDateTime.now().minusDays(28);
         LocalDateTime now = LocalDateTime.now();
 
-        List<com.digitaltherapyassistant.entity.DiaryEntry> allEntries =
-                diaryEntryRepository.findByUserIdAndDeletedFalse(userId);
+        List<DiaryEntry> allEntries = diaryEntryRepository.findByUserIdAndDeletedFalse(userId);
 
         List<MonthlyTrends.WeeklyStats> breakdown = new ArrayList<>();
         for (int week = 0; week < 4; week++) {
@@ -78,7 +79,7 @@ public class ProgressServiceImpl implements ProgressService {
             List<UserSession> wSessions = userSessionRepository.findByUserIdAndDateRange(userId, start, end);
             long wCompleted = wSessions.stream().filter(s -> s.getStatus() == Status.COMPLETED).count();
 
-            List<com.digitaltherapyassistant.entity.DiaryEntry> wEntries = allEntries.stream()
+            List<DiaryEntry> wEntries = allEntries.stream()
                     .filter(e -> e.getCreatedAt() != null
                             && e.getCreatedAt().isAfter(start)
                             && e.getCreatedAt().isBefore(end))
@@ -93,7 +94,7 @@ public class ProgressServiceImpl implements ProgressService {
             breakdown.add(new MonthlyTrends.WeeklyStats(week + 1, (int) wCompleted, wEntries.size(), wAvgMood));
         }
 
-        List<com.digitaltherapyassistant.entity.DiaryEntry> monthEntries = allEntries.stream()
+        List<DiaryEntry> monthEntries = allEntries.stream()
                 .filter(e -> e.getCreatedAt() != null && e.getCreatedAt().isAfter(monthStart))
                 .toList();
 
@@ -109,7 +110,7 @@ public class ProgressServiceImpl implements ProgressService {
         List<Object[]> topRaw = diaryEntryRepository.findTopDistortionsByUser(userId);
         List<String> topDistortions = topRaw.stream()
                 .limit(3)
-                .map(row -> ((com.digitaltherapyassistant.entity.CognitiveDistortion) row[0]).getName())
+                .map(row -> ((CognitiveDistortion) row[0]).getName())
                 .toList();
 
         return new MonthlyTrends(breakdown, topDistortions, overallMood, (int) totalSessions, monthEntries.size());
@@ -117,14 +118,13 @@ public class ProgressServiceImpl implements ProgressService {
 
     @Override
     @Transactional(readOnly = true)
-    public BurnoutRecovery getBurnoutRecovery(String userId) {
+    public BurnoutRecovery getBurnoutRecovery(UUID userId) {
         User user = getUser(userId);
 
         long totalCompleted = userSessionRepository.countCompletedSessionsByUser(userId);
         int streak = user.getStreakDays() != null ? user.getStreakDays() : 0;
         String severity = user.getSeverityLevel() != null ? user.getSeverityLevel().name() : "MILD";
 
-        // Simple recovery progress: cap at 100%, based on completed sessions (target = 20)
         int progressPercent = (int) Math.min(100, (totalCompleted * 100) / 20);
 
         List<String> recommendations = buildRecommendations(severity, streak, totalCompleted);
@@ -134,16 +134,15 @@ public class ProgressServiceImpl implements ProgressService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Achievement> getAchievements(String userId) {
+    public List<Achievement> getAchievements(UUID userId) {
         User user = getUser(userId);
         long sessionsCompleted = userSessionRepository.countCompletedSessionsByUser(userId);
-        List<com.digitaltherapyassistant.entity.DiaryEntry> entries =
-                diaryEntryRepository.findByUserIdAndDeletedFalse(userId);
+        List<DiaryEntry> entries = diaryEntryRepository.findByUserIdAndDeletedFalse(userId);
         int streak = user.getStreakDays() != null ? user.getStreakDays() : 0;
         return Achievement.allAchievements(sessionsCompleted, entries.size(), streak);
     }
 
-    private User getUser(String userId) {
+    private User getUser(UUID userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
     }

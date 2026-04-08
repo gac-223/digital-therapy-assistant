@@ -5,18 +5,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface DiaryService {
 
-    DiaryEntryResponse createEntry(String userId, DiaryEntryCreate request);
+    DiaryEntryResponse createEntry(UUID userId, DiaryEntryCreate request);
 
-    Page<DiaryEntrySummary> getEntries(String userId, Pageable pageable);
+    Page<DiaryEntrySummary> getEntries(UUID userId, Pageable pageable);
 
-    DiaryEntryDetail getEntryDetail(String entryId);
+    DiaryEntryDetail getEntryDetail(UUID entryId);
 
-    void deleteEntry(String entryId);
+    void deleteEntry(UUID entryId);
 
     List<DistortionSuggestion> suggestDistortions(String thought);
 
-    DiaryInsights getInsights(String userId);
+    DiaryInsights getInsights(UUID userId);
 }
