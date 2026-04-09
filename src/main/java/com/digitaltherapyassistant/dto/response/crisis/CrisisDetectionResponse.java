@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class CrisisDetectionResponse {
-    private static enum RiskLevel {
+    public static enum RiskLevel {
         NONE("None"),
         LOW("Low"),
         MEDIUM("Medium"),
@@ -23,7 +23,7 @@ public class CrisisDetectionResponse {
 
     }
 
-    private static enum RecommendedAction {
+    public static enum RecommendedAction {
         NONE("None"),
         SHOW_RESOURCES("Show Resources"),
         SHOW_CRISIS_HUB("Show Crisis Hub"),
