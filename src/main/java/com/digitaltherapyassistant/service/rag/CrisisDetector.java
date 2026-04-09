@@ -1,12 +1,19 @@
 package com.digitaltherapyassistant.service.rag;
 
 import com.digitaltherapyassistant.dto.response.crisis.CrisisDetectionResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Service;
+
+@Service
 public class CrisisDetector {
     private static final Set<String> CRISIS_KEYWORDS = Set.of(
             "suicide", "kill myself", "end it all", "no reason to live",
@@ -15,6 +22,7 @@ public class CrisisDetector {
 
     private final ChatClient chatClient ;
     private final RagContextBuilder ragContextBuilder ;
+    private static final Logger logger = LoggerFactory.getLogger(CrisisDetector.class);
 
     public CrisisDetector(ChatClient chatClient, RagContextBuilder ragContextBuilder) {
 
@@ -25,6 +33,7 @@ public class CrisisDetector {
     public CrisisDetectionResponse analyze(String text) {
 
         List<String> keywordsDetected = new ArrayList<>() ;
+        ObjectMapper mapper = new ObjectMapper();
 
         // layer 1: keyword based detection
         for (String word : CRISIS_KEYWORDS) {
@@ -58,8 +67,16 @@ public class CrisisDetector {
                 .content();
 
         // combine signals - err on the side of caution
-        // TODO: parse aiResponse JSON into CrisisDetectionResponse fields
-
-        return new CrisisDetectionResponse() ;
+        try{
+            return mapper.readValue(aiResponse, CrisisDetectionResponse.class);
+        } catch(Exception e) {
+           logger.error("Failed to parse crisis AI response: {}", e.getMessage());                                                                     
+            CrisisDetectionResponse fallback = new CrisisDetectionResponse();                                                                           
+            fallback.setRiskLevel(CrisisDetectionResponse.RiskLevel.CRITICAL);                                                                          
+            fallback.setRecommendedAction(CrisisDetectionResponse.RecommendedAction.IMMEDIATE_INTERVENTION);                                            
+            fallback.setKeywordsDetected(keywordsDetected);
+            fallback.setReasoning("Failed to parse AI response");                                                                                       
+      return fallback;
+        }
     }
 }

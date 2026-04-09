@@ -4,14 +4,16 @@ import lombok.Data;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Data
 public class CrisisDetectionResponse {
-    private static enum RiskLevel {
-        NONE("None"),
-        LOW("Low"),
-        MEDIUM("Medium"),
-        HIGH("High"),
-        CRITICAL("Critical") ;
+    public static enum RiskLevel {
+        @JsonProperty("none") NONE("None"),
+        @JsonProperty("low") LOW("Low"),
+        @JsonProperty("medium") MEDIUM("Medium"),
+        @JsonProperty("high") HIGH("High"),
+        @JsonProperty("critical") CRITICAL("Critical") ;
 
         private final String displayName ;
 
@@ -22,11 +24,11 @@ public class CrisisDetectionResponse {
 
     }
 
-    private static enum RecommendedAction {
-        NONE("None"),
-        SHOW_RESOURCES("Show Resources"),
-        SHOW_CRISIS_HUB("Show Crisis Hub"),
-        IMMEDIATE_INTERVENTION("Immediate Intervention") ;
+    public static enum RecommendedAction {
+        @JsonProperty("none") NONE("None"),
+        @JsonProperty("show_resources") SHOW_RESOURCES("Show Resources"),
+        @JsonProperty("show_crisis_hub") SHOW_CRISIS_HUB("Show Crisis Hub"),
+        @JsonProperty("immediate_intervention") IMMEDIATE_INTERVENTION("Immediate Intervention") ;
 
         private final String displayName ;
 
@@ -40,5 +42,11 @@ public class CrisisDetectionResponse {
     private List<String> keywordsDetected ;
     private RecommendedAction recommendedAction ;
     private String reasoning ;
+
+    public void setRiskLevel(RiskLevel riskLevel) { this.riskLevel = riskLevel; }                                                                   
+    public void setRecommendedAction(RecommendedAction recommendedAction) { this.recommendedAction = recommendedAction; }  
+    public void setKeywordsDetected(List<String> keywordsDetected) { this.keywordsDetected = keywordsDetected; }                                                                   
+    public void setReasoning(String reasoning) { this.reasoning = reasoning; }  
+    
 
 }

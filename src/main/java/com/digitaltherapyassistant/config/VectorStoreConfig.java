@@ -2,6 +2,7 @@ package com.digitaltherapyassistant.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 
@@ -102,6 +103,11 @@ public class VectorStoreConfig {
      * @param vectorStoreFilePath Path to the JSON file for vector store persistence.
      * @return A VectorStore implementation for storing and searching document embeddings
      */
+    @Bean
+    public ChatClient chatClient(ChatClient.Builder builder) {
+        return builder.build();
+    }
+
     @Bean
     public SimpleVectorStore vectorStore(EmbeddingModel embeddingModel,
                                          @Value("${app.vectorstore.file-path:data/vectorstore.json}") String vectorStoreFilePath) {

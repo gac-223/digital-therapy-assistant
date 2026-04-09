@@ -147,6 +147,7 @@ public class SessionServiceImpl implements SessionService{
         }
         userSession.setEndedAt(LocalDateTime.now());
         userSession.setStatus(Status.COMPLETED);
+        // save first before delete?
         userSessionRepository.delete(userSession);
 
         response.setSession(session);
